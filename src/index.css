@@ -1,4 +1,4 @@
-body {
+/* body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -10,4 +10,296 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+} */
+
+body {
+    margin:0;
+    font-family: Open Sans Condensed;
+    /* font-family: 'Shippori Mincho B1', serif; */
+    height: 100%;
+    width: auto;
+    /* background-image: url("static/img/bookshelf-background-blur.jpg") center center fixed; */
+    -webkit-background-size: contain;
+    -moz-background-size: contain;
+    -o-background-size: contain;
+    /*background-size: cover; */
+    background-size: contain;
 }
+
+#background-image {
+    height: 100%;
+    width: 100%;
+    float: left;
+    top: 0;
+    padding: none;
+    position: fixed;
+    width: auto;
+    opacity: 0.7;
+  }
+
+.color-nav {
+    background-color: #7db6a3;
+    /* box-shadow: 0 2px 2px -2px rgba(0,0,0,.2); */
+}
+
+nav ul {
+    float: right;
+    margin: 0;
+    padding: 0;
+    list-style-type: none; 
+    background-color: #7db6a3;
+    border-bottom: 1px solid #7db6a3; 
+    border-top: 1px solid #7db6a3; 
+}
+
+
+nav li .link-button {   
+    font-family: Open Sans Condensed;
+    text-decoration: none;
+    font-weight: bold;
+    color: #000000;
+    vertical-align: right;
+    /* display: block; */
+    padding: 2rem;
+}
+
+nav li .link-button:hover {   
+    /* background-color: #90ceba; */
+    background-color: #a1d4c3;
+}
+
+img#logo {
+    float: left;
+    width: 4.3rem;
+    display: inline;
+    /* padding:.5rem; */
+}
+
+#search-bar {
+    /* display: inline-block; */
+    vertical-align: middle;
+    /* margin: 0; */
+}
+
+.toggle-button {
+    margin: 2rem 0;
+    background-color: #7db6a3;
+    border: none;
+    color: #000000;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+}
+
+.button {
+    margin: 2rem;
+    background-color: #7db6a3;
+    border: none;
+    color: #000000;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    border-radius: 5px;
+}
+
+.button-bare {
+    margin: 0;
+    background-color: #7db6a3;
+    border: none;
+    color: #000000;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+}
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle {
+    color: #000000;
+    background-color:#a1d4c3;
+    border-color: #a1d4c3;
+}
+
+.toggle-button:hover {   
+    background-color: #a1d4c3;
+    color: #000000;
+}
+
+
+.button-bare:hover {   
+    background-color: #a1d4c3;
+    color: #000000;
+}
+
+.button:hover {   
+    background-color: #a1d4c3;
+    color: #000000;
+    text-decoration: none;
+}
+
+.button-search {
+    margin: 1rem;
+    background-color: #7db6a3;
+    border-color: #000000;
+    color: #000000;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.button-search:hover {   
+    background-color: #a1d4c3;
+    color: #000000;
+}
+
+div.event-book {
+    display: inline-block;
+}
+
+.vote {
+    display: block;
+}
+
+img.book-tile {
+    margin: 1rem;
+    width: 128px;
+    height: auto;
+    float: left;
+}
+
+.wrapper p {
+    line-height: 1.6; 
+    text-align: justify;
+    margin: 0;
+    font-size: 14px;
+  }
+
+.wrapper h2, h3, h4, h5 {
+    line-height: 1.6; 
+    /* text-align: justify; */
+    margin: 0;
+
+  }
+
+h1 {
+    text-align: center;
+    /* flex: auto; */
+    display: inline;
+    /* -webkit-text-stroke: 1px #fff; width and color */
+    line-height: 2;
+    margin: 1rem;
+    color: #fff;
+    font-size: 3rem;
+    font-weight: bold;
+    font-family: 'Shippori Mincho B1', serif;
+    background-color: rgba(5, 4, 2, 0.2);
+    padding:1rem;
+    border-radius: 10px;
+}
+
+h1.on-card {
+    color: #000;
+    background-color: #fff;
+}
+
+.scrolling-wrapper-flexbox {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+  
+.book-cover {
+    margin: 1rem;
+    flex: 0 0 auto;
+    vertical-align: bottom;
+    
+    
+}
+
+.book-cover:hover {   
+    transform: scale(1.2);
+}
+
+/* .shelf-board {
+    border-style: solid;
+    border-image: url(/public/Melamine-wood-004.png) 100 round;
+    border-image-width: .5rem;
+  
+}
+
+.bookshelf {
+    border-style: solid;
+    border-image: url(../public/Melamine-wood-004.png) 100 round;
+    border-image-width: 2.5rem;
+    padding-top: 2rem;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+    background-color: #e4c9a7;
+    background-image: url(../public/Melamine-wood-005.png);
+} */
+
+ .column {
+    padding-left: 0; 
+    padding-right: 0;
+ }
+
+ .label-bg {
+    line-height: 4;
+    margin-left: 2rem;
+    display: inline;
+    font-weight: bold;
+    /* background-color: #fff; */
+    background-color: rgb(255,255,255, 0.5);
+    /* border: x rgb(255,255,255, 0.4); */
+    border-radius: 10px;
+    padding-left: .5rem;
+    padding-right:.5rem;
+ }
+
+ .margin-down {
+    position: relative;
+    top: 5px;
+ }
+
+ /* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px #7db6a3; 
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #7db6a3; 
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #a1d4c3; 
+  }
+
+  .card-color {
+    border: none;
+  }
+
+  .logo-text {
+    font-size: .5rem;
+    padding-left: 5px;
+  }
+
+
+
+  /*old background-color: #7db6a3; old highlight: #90ceba;; */

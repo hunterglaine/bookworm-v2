@@ -1,4 +1,7 @@
-import React, { useHistory } from 'react';
+import React from 'react';
+import {
+    useHistory
+  } from "react-router-dom";
 import { 
       Button, 
       Form, 
@@ -24,7 +27,6 @@ function SearchBar(props) {
         .catch(console.error)
 
          history.push("/book-search")
-        // history.push(`/book-search/${querystring.stringify({bookQuery:urlQuery})}`)
         history.push(`/book-search/${urlQuery}`)
         document.getElementById("search-bar").reset();
     }

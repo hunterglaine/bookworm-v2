@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  // Route,
+  Route,
   // Link
 } from "react-router-dom";
 import TopNavigation from "./TopNavigation"
 import UserEvents from "./UserEvents"
 import LogIn from "./LogIn"
+import LogOut from "./LogOut"
 
 // import { 
 //       Button, 
@@ -35,8 +36,8 @@ function App() {
   const [bookQuery, setBookQuery] = useState(null);
   const [userCategories, setUserCategories] = useState();
   // const [bookshelfCategories, setBookshelfCategories] = useState([]);
-  // const [bookForDetails, setBookForDetails] = useState({});
-  // const [eventForDetails, setEventForDetails] = useState({});
+  const [bookForDetails, setBookForDetails] = useState({});
+  const [eventForDetails, setEventForDetails] = useState({});
   // const [newLabel, setNewLabel] = useState(null);
 
   // let history = useHistory();
@@ -66,7 +67,7 @@ function App() {
                   setEventForDetails={setEventForDetails} />
               : <LogIn userLoggedIn={userLoggedIn} setUserLoggedIn={setUserLoggedIn} />}
             </Route>
-            {/*
+            
               <Route path="/login">
                 <LogIn userLoggedIn={userLoggedIn} setUserLoggedIn={setUserLoggedIn} />
               </Route>
@@ -76,6 +77,7 @@ function App() {
               <Route path="/logout">
                 <LogOut userLoggedIn={userLoggedIn} setUserLoggedIn={setUserLoggedIn} />
               </Route>
+              {/*
               <Route path="/create-account">
                 <CreateAccount />
               </Route>

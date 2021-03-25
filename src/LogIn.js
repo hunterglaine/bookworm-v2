@@ -9,8 +9,6 @@ import {
     Form
 } from "react-bootstrap";
 
-let history = useHistory();
-
 
 function LogIn(props) {
     const[userEmail, setUserEmail] = useState('');

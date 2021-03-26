@@ -60,10 +60,10 @@ img#logo {
 
 .toggle-button {
     margin: 2rem 0;
-    background-color: #7db6a3;
+    background-color: #7db6a3 !important;
     border: none;
-    color: #000000;
-    padding: 10px 10px;
+    color: #000000 !important;
+    padding: 10px 10px !important;
     text-align: center;
     text-decoration: none;
     display: inline-block;

@@ -11,6 +11,7 @@ import LogIn from "./LogIn"
 import LogOut from "./LogOut"
 import CreateAccount from "./CreateAccount"
 import UserPage from "./UserPage"
+import SearchResults from "./SearchResults"
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // import { 
@@ -101,6 +102,7 @@ function App() {
                   userLoggedIn={userLoggedIn}
                  />
               </Route>
+              */}
               <Route path="/book-search/:urlQuery">
                 <SearchResults 
                   bookQuery={bookQuery} 
@@ -108,6 +110,7 @@ function App() {
                   userCategories={userCategories}
                   setUserCategories={setUserCategories} />
               </Route>
+              {/*
               <Route exact path="/book-details/:categoryLabel/:eventId" >
                 <BookDetails bookForDetails={bookForDetails} />
               </Route>

@@ -17,7 +17,7 @@ function CategoryContainer(props) {
     const labelChange = useRef("");
     const booksInCategory = []
 
-    console.log("This is new label",props. newLabel)
+    console.log("This is new label",props.newLabel)
     console.log("THIS is label up top", props.label)
 
     const showForm = (arg) => (evt) => {

@@ -26,7 +26,7 @@ function SearchBar(props) {
         })
         .catch(console.error)
 
-         history.push("/book-search")
+        //  history.push("/book-search")
         history.push(`/book-search/${urlQuery}`)
         document.getElementById("search-bar").reset();
     }

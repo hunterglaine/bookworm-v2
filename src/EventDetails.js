@@ -114,7 +114,7 @@ function EventDetails(props) {
                 {event.books.length === 1 ? <h4>We're Reading</h4> : <h4>Book Suggestions</h4>}
                 {event.books.map((book, idx) => 
                     (<div key={idx} className="event-book">
-                        <Card className="text-center" border="light" className="card-color">
+                        <Card className="text-center card-color" border="light">
                             <Book key={book.isbn} book={book} setBookForDetails={props.setBookForDetails} categoryLabel="event" eventId={event.id} />
                             {event.can_vote 
                                 ? <div>

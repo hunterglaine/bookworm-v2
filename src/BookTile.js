@@ -71,7 +71,7 @@ function BookTile(props) {
             <Col sm={10} className="mt-4">
                 <Card className="text-center" border="light" style={{padding: "2rem"}}>
                     <div className="wrapper">
-                        <img className="book-tile" src={book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : "/static/img/no_book_cover.png"} alt="Book Cover" />
+                        <img className="book-tile" src={book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : "./img/no_book_cover.png"} alt="Book Cover" />
                     
                         <h3>{book.volumeInfo.title}</h3>
                     

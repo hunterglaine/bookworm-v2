@@ -12,24 +12,10 @@ import LogOut from "./LogOut"
 import CreateAccount from "./CreateAccount"
 import UserPage from "./UserPage"
 import SearchResults from "./SearchResults"
+import BookDetails from "./BookDetails"
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-// import { 
-//       Button, 
-//       Navbar, 
-//       Nav, 
-//       Form, 
-//       FormControl, 
-//       Container, 
-//       Row, 
-//       Col, 
-//       Card, 
-//       Alert, 
-//       ToggleButtonGroup, 
-//       ButtonGroup, 
-//       ToggleButton 
-// } from 'react-bootstrap';
-// import logo from './logo.svg';
 import './App.css';
 
 
@@ -110,10 +96,10 @@ function App() {
                   userCategories={userCategories}
                   setUserCategories={setUserCategories} />
               </Route>
-              {/*
               <Route exact path="/book-details/:categoryLabel/:eventId" >
                 <BookDetails bookForDetails={bookForDetails} />
               </Route>
+               {/*
               <Route path="/create-event" >
                 <CreateEvent userLoggedIn={userLoggedIn} />
               </Route>

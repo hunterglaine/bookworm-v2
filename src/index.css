@@ -42,7 +42,7 @@ body {
     /* box-shadow: 0 2px 2px -2px rgba(0,0,0,.2); */
 }
 
-nav ul {
+nav {
     /* float: right; */
     margin: 0;
     padding: 0;
@@ -53,18 +53,17 @@ nav ul {
 }
 
 
-nav li .link-button {   
+nav .link-button {   
     font-family: Open Sans Condensed;
     text-decoration: none;
     font-weight: bold;
     color: #000000;
     vertical-align: middle;
-    /* float: right; */
-    display: inline;
+    display: inline-block;
     padding: 2rem;
 }
 
-nav li .link-button:hover {   
+nav .link-button:hover {   
     /* background-color: #90ceba; */
     background-color: #a1d4c3;
 }
@@ -73,12 +72,13 @@ img#logo {
     float: left;
     width: 4.3rem;
     display: inline;
-    /* padding:.5rem; */
+    padding:.5rem;
 }
 
 #search-bar {
     display: inline-block;
     vertical-align: middle;
+    padding: .3rem;
     /* margin: 0; */
 }
 

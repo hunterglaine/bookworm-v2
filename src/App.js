@@ -3,12 +3,13 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  // Link
 } from "react-router-dom";
+
 import TopNavigation from "./TopNavigation"
 import UserEvents from "./UserEvents"
 import LogIn from "./LogIn"
 import LogOut from "./LogOut"
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 // import { 
 //       Button, 

@@ -10,6 +10,8 @@ import {
 } from "react-bootstrap";
 
 
+
+
 function LogIn(props) {
     const[userEmail, setUserEmail] = useState('');
     const[userPassword, setUserPassword] = useState('');
@@ -56,7 +58,7 @@ function LogIn(props) {
     <Row className="m-0">
         <Col sm={4}></Col>
         <Col sm={4}>
-        <Card style={{padding: "2rem"}}>
+        <Card style={{ padding: "2rem", backgroundColor: "#fff"}}>
         <h1 className="on-card">Log In</h1>
         <Form action="/login" onSubmit={logUserIn}>
             <FormControl type="text" id="login-email" name="email" placeholder="Your Email" onChange={(e) => setUserEmail(e.target.value)} autoFocus required />

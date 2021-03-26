@@ -1,28 +1,11 @@
-/* body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-} */
-
 body {
     margin:0;
     font-family: Open Sans Condensed;
-    /* font-family: 'Shippori Mincho B1', serif; */
     height: 100%;
     width: auto;
-    /* background-image: url("static/img/bookshelf-background-blur.jpg") center center fixed; */
     -webkit-background-size: contain;
     -moz-background-size: contain;
     -o-background-size: contain;
-    /*background-size: cover; */
     background-size: contain;
 }
 
@@ -39,11 +22,10 @@ body {
 
 .color-nav {
     background-color: #7db6a3;
-    /* box-shadow: 0 2px 2px -2px rgba(0,0,0,.2); */
 }
 
-nav {
-    /* float: right; */
+nav ul {
+    float: right;
     margin: 0;
     padding: 0;
     list-style-type: none; 
@@ -53,18 +35,16 @@ nav {
 }
 
 
-nav .link-button {   
+nav li .link-button {   
     font-family: Open Sans Condensed;
     text-decoration: none;
     font-weight: bold;
     color: #000000;
-    vertical-align: middle;
-    display: inline-block;
+    vertical-align: right;
     padding: 2rem;
 }
 
-nav .link-button:hover {   
-    /* background-color: #90ceba; */
+nav li .link-button:hover {   
     background-color: #a1d4c3;
 }
 
@@ -72,14 +52,10 @@ img#logo {
     float: left;
     width: 4.3rem;
     display: inline;
-    padding:.5rem;
 }
 
 #search-bar {
-    display: inline-block;
     vertical-align: middle;
-    padding: .3rem;
-    /* margin: 0; */
 }
 
 .toggle-button {
@@ -95,69 +71,69 @@ img#logo {
 }
 
 .button {
-    margin: 2rem;
-    background-color: #7db6a3;
-    border: none;
-    color: #000000;
-    padding: 10px 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    border-radius: 5px;
+    margin: 2rem !important;
+    background-color: #7db6a3 !important;
+    border: none !important;
+    color: #000000 !important;
+    padding: 10px 10px !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    display: inline-block !important;
+    font-size: 14px !important;
+    border-radius: 5px !important;
 }
 
 .button-bare {
     margin: 0;
-    background-color: #7db6a3;
+    background-color: #7db6a3 !important;
     border: none;
-    color: #000000;
+    color: #000000 !important;
     padding: 10px 10px;
     text-align: center;
-    text-decoration: none;
+    text-decoration: none !important;
     display: inline-block;
     font-size: 14px;
 }
 .btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle {
-    color: #000000;
-    background-color:#a1d4c3;
-    border-color: #a1d4c3;
+    color: #000000 !important;
+    background-color:#a1d4c3 !important;
+    border-color: #a1d4c3 !important;
 }
 
 .toggle-button:hover {   
-    background-color: #a1d4c3;
-    color: #000000;
+    background-color: #a1d4c3 !important;
+    color: #000000 !important;
 }
 
 
 .button-bare:hover {   
-    background-color: #a1d4c3;
-    color: #000000;
+    background-color: #a1d4c3 !important;
+    color: #000000 !important;
 }
 
 .button:hover {   
-    background-color: #a1d4c3;
-    color: #000000;
-    text-decoration: none;
+    background-color: #a1d4c3 !important;
+    color: #000000 !important;
+    text-decoration: none !important;
 }
 
 .button-search {
     margin: 1rem;
     background-color: #7db6a3;
-    border-color: #000000;
-    color: #000000;
+    border-color: #000000 !important;
+    color: #000000 !important;
     padding: 10px 10px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
     font-weight: bold;
-    border-radius: 10px;
+    display: inline-block;
 }
 
 .button-search:hover {   
-    background-color: #a1d4c3;
-    color: #000000;
+    background-color: #a1d4c3 !important;
+    color: #000000 !important;
 }
 
 div.event-book {
@@ -229,23 +205,27 @@ h1.on-card {
     transform: scale(1.2);
 }
 
-/* .shelf-board {
+.shelf-board {
+    /* border: .5rem solid #814A2D; */
     border-style: solid;
-    border-image: url(/public/Melamine-wood-004.png) 100 round;
+    border-image: url(./img/Melamine-wood-004.png) 100 round;
     border-image-width: .5rem;
   
 }
 
 .bookshelf {
+    /* border: 2rem solid #814A2D; */
+    /* border: 2rem; */
     border-style: solid;
-    border-image: url(../public/Melamine-wood-004.png) 100 round;
+    /* border-radius: 5px; */
+    border-image: url(./img/Melamine-wood-004.png) 100 round;
     border-image-width: 2.5rem;
     padding-top: 2rem;
     padding-left: 2.5rem;
     padding-right: 2.5rem;
     background-color: #e4c9a7;
-    background-image: url(../public/Melamine-wood-005.png);
-} */
+    background-image: url(./img/Melamine-wood-005.png);
+}
 
  .column {
     padding-left: 0; 

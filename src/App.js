@@ -9,6 +9,8 @@ import TopNavigation from "./TopNavigation"
 import UserEvents from "./UserEvents"
 import LogIn from "./LogIn"
 import LogOut from "./LogOut"
+import CreateAccount from "./CreateAccount"
+import UserPage from "./UserPage"
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // import { 
@@ -36,10 +38,10 @@ function App() {
 
   const [bookQuery, setBookQuery] = useState(null);
   const [userCategories, setUserCategories] = useState();
-  // const [bookshelfCategories, setBookshelfCategories] = useState([]);
+  const [bookshelfCategories, setBookshelfCategories] = useState([]);
   const [bookForDetails, setBookForDetails] = useState({});
   const [eventForDetails, setEventForDetails] = useState({});
-  // const [newLabel, setNewLabel] = useState(null);
+  const [newLabel, setNewLabel] = useState(null);
 
   // let history = useHistory();
 
@@ -78,7 +80,7 @@ function App() {
               <Route path="/logout">
                 <LogOut userLoggedIn={userLoggedIn} setUserLoggedIn={setUserLoggedIn} />
               </Route>
-              {/*
+              
               <Route path="/create-account">
                 <CreateAccount />
               </Route>
@@ -93,6 +95,7 @@ function App() {
                   setNewLabel={setNewLabel}
                  />
               </Route>
+              {/*
               <Route exact path="/update-account-info">
                 <UpdateAccount 
                   userLoggedIn={userLoggedIn}
@@ -111,11 +114,13 @@ function App() {
               <Route path="/create-event" >
                 <CreateEvent userLoggedIn={userLoggedIn} />
               </Route>
+              */}
               <Route path="/users-events" >
                 <UserEvents userLoggedIn={userLoggedIn}
                             setBookForDetails={setBookForDetails}
                             setEventForDetails={setEventForDetails} />
               </Route>
+              {/*
               <Route path="/all-events" >
                 <AllEvents userLoggedIn={userLoggedIn} />
               </Route>

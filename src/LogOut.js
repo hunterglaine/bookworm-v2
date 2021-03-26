@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from "react-router-dom";
 
 function LogOut(props) {
     
     let history = useHistory();
     
-    React.useEffect(() =>  {
+    useEffect(() =>  {
         fetch("/logout", {
             method: "POST",
             credentials: "include",

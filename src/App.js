@@ -13,6 +13,7 @@ import CreateAccount from "./CreateAccount"
 import UserPage from "./UserPage"
 import SearchResults from "./SearchResults"
 import BookDetails from "./BookDetails"
+import AllEvents from "./AllEvents"
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -27,7 +28,7 @@ function App() {
   const [userCategories, setUserCategories] = useState();
   const [bookshelfCategories, setBookshelfCategories] = useState([]);
   const [bookForDetails, setBookForDetails] = useState({});
-  const [eventForDetails, setEventForDetails] = useState({});
+  // const [eventForDetails, setEventForDetails] = useState({});
   const [newLabel, setNewLabel] = useState(null);
 
   // let history = useHistory();
@@ -53,8 +54,8 @@ function App() {
               {userLoggedIn.userId 
               ? <UserEvents 
                   userLoggedIn={userLoggedIn}
-                  setBookForDetails={setBookForDetails}
-                  setEventForDetails={setEventForDetails} />
+                  setBookForDetails={setBookForDetails} />
+                  // setEventForDetails={setEventForDetails} />
               : <LogIn userLoggedIn={userLoggedIn} setUserLoggedIn={setUserLoggedIn} />}
             </Route>
             
@@ -106,10 +107,9 @@ function App() {
               */}
               <Route path="/users-events" >
                 <UserEvents userLoggedIn={userLoggedIn}
-                            setBookForDetails={setBookForDetails}
-                            setEventForDetails={setEventForDetails} />
+                            setBookForDetails={setBookForDetails} />
+                            {/* // setEventForDetails={setEventForDetails} /> */}
               </Route>
-              {/*
               <Route path="/all-events" >
                 <AllEvents userLoggedIn={userLoggedIn} />
               </Route>

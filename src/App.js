@@ -14,6 +14,8 @@ import UserPage from "./UserPage"
 import SearchResults from "./SearchResults"
 import BookDetails from "./BookDetails"
 import AllEvents from "./AllEvents"
+import UpdateAccount from "./UpdateAccount"
+import CreateEvent from "./CreateEvent"
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -68,7 +70,6 @@ function App() {
               <Route path="/logout">
                 <LogOut userLoggedIn={userLoggedIn} setUserLoggedIn={setUserLoggedIn} />
               </Route>
-              
               <Route path="/create-account">
                 <CreateAccount />
               </Route>
@@ -83,13 +84,11 @@ function App() {
                   setNewLabel={setNewLabel}
                  />
               </Route>
-              {/*
               <Route exact path="/update-account-info">
                 <UpdateAccount 
                   userLoggedIn={userLoggedIn}
                  />
               </Route>
-              */}
               <Route path="/book-search/:urlQuery">
                 <SearchResults 
                   bookQuery={bookQuery} 
@@ -100,11 +99,9 @@ function App() {
               <Route exact path="/book-details/:categoryLabel/:eventId" >
                 <BookDetails bookForDetails={bookForDetails} />
               </Route>
-               {/*
               <Route path="/create-event" >
                 <CreateEvent userLoggedIn={userLoggedIn} />
               </Route>
-              */}
               <Route path="/users-events" >
                 <UserEvents userLoggedIn={userLoggedIn}
                             setBookForDetails={setBookForDetails} />
@@ -113,7 +110,6 @@ function App() {
               <Route path="/all-events" >
                 <AllEvents userLoggedIn={userLoggedIn} />
               </Route>
-            
             {/* <footer className="color-nav">
               <div style={{display: "block", padding: "0", height: "1rem", width: "100%"}}></div>
               <div style={{ textAlign: "center", padding: "1rem", left: "0", bottom: "1rem", height: "4rem", width: "100%", fontWeight: "bold"}}>

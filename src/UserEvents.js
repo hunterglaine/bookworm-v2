@@ -45,10 +45,10 @@ function UserEvents(props) {
         <div>
             <Row className="m-0">
                 {/* <Col sm={2}></Col> */}
-            <Col sm={8} >
+            <Col sm={7} >
                 <h1>{whichEvents === "upcoming" ? "Book Clubs You're Hosting" : "Book Clubs You Hosted"}</h1>
             </Col>
-            <Col sm={2} >
+            <Col sm={3} >
                 <Button className="button" onClick={() => history.push("/create-event")}>Host a Book Club</Button>
             </Col>
             <Col sm={2}>

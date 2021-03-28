@@ -1,6 +1,6 @@
 body {
     margin:0;
-    font-family: Open Sans Condensed;
+    font-family: Open Sans Condensed !important;
     height: 100%;
     width: auto;
     -webkit-background-size: contain;
@@ -170,11 +170,11 @@ h1 {
     /* flex: auto; */
     display: inline;
     /* -webkit-text-stroke: 1px #fff; width and color */
-    line-height: 2;
+    line-height: 2 !important;
     margin: 1rem;
     color: #fff;
     font-size: 3rem !important;
-    font-weight: bold;
+    font-weight: bold !important;
     font-family: 'Shippori Mincho B1', serif;
     background-color: rgba(5, 4, 2, 0.2);
     padding:1rem;

@@ -38,10 +38,8 @@ function CreateAccount() {
             credentials: "include",
             body: JSON.stringify(newUserDetails),
             headers: {
-                // 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            // mode: "cors"
         })
         .then (response => response.json())
         .then(data => {
@@ -51,7 +49,6 @@ function CreateAccount() {
                 history.push("/create-account");
             }
             else {
-                // props.setUserLoggedIn(data["user_id"]);
                 alert("Your account has been created!");
                 history.push("/login");
             }

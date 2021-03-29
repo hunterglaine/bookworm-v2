@@ -30,10 +30,7 @@ function App() {
   const [userCategories, setUserCategories] = useState();
   const [bookshelfCategories, setBookshelfCategories] = useState([]);
   const [bookForDetails, setBookForDetails] = useState({});
-  // const [eventForDetails, setEventForDetails] = useState({});
   const [newLabel, setNewLabel] = useState(null);
-
-  // let history = useHistory();
 
   useEffect(() => {
     if (localStorage.getItem("userId") !== "null") {
@@ -50,7 +47,8 @@ function App() {
               setBookQuery={setBookQuery} 
               userCategories={userCategories} 
               setUserCategories={setUserCategories}
-              userLoggedIn={userLoggedIn} />
+              userLoggedIn={userLoggedIn} 
+            />
             <Switch>
             <Route exact path="/">
               {userLoggedIn.userId 
@@ -82,19 +80,20 @@ function App() {
                   setBookForDetails={setBookForDetails}
                   newLabel={newLabel}
                   setNewLabel={setNewLabel}
-                 />
+                />
               </Route>
               <Route exact path="/update-account-info">
                 <UpdateAccount 
                   userLoggedIn={userLoggedIn}
-                 />
+                />
               </Route>
               <Route path="/book-search/:urlQuery">
                 <SearchResults 
                   bookQuery={bookQuery} 
                   userLoggedIn={userLoggedIn} 
                   userCategories={userCategories}
-                  setUserCategories={setUserCategories} />
+                  setUserCategories={setUserCategories} 
+                />
               </Route>
               <Route exact path="/book-details/:categoryLabel/:eventId" >
                 <BookDetails bookForDetails={bookForDetails} />
@@ -103,9 +102,10 @@ function App() {
                 <CreateEvent userLoggedIn={userLoggedIn} />
               </Route>
               <Route path="/users-events" >
-                <UserEvents userLoggedIn={userLoggedIn}
-                            setBookForDetails={setBookForDetails} />
-                            {/* // setEventForDetails={setEventForDetails} /> */}
+                <UserEvents 
+                  userLoggedIn={userLoggedIn}
+                  setBookForDetails={setBookForDetails} 
+                />
               </Route>
               <Route path="/all-events" >
                 <AllEvents userLoggedIn={userLoggedIn} />

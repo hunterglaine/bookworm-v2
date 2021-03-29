@@ -31,7 +31,6 @@ function BookDetails(props) {
             },
         })
         .then(response => response.json())
-        // .then(data => alert(data["success"]))
         history.push("/user/home/browsing")
     } 
 

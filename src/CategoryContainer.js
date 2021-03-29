@@ -13,7 +13,6 @@ import Book from "./Book"
 
 function CategoryContainer(props) {
     
-    // const [newLabel, setNewLabel] = React.useState(null)
     const labelChange = useRef("");
     const booksInCategory = []
 
@@ -46,7 +45,6 @@ function CategoryContainer(props) {
             })
             .then(response => response.json())
             .then(data => {
-                // alert(data["success"])
                 props.setNewLabel(data.label)
                 document.getElementById(`change-label-${props.label}`).style.visibility="hidden";
                 document.getElementById(`change-label-${props.label}`).reset();
@@ -65,8 +63,6 @@ function CategoryContainer(props) {
         })
         .then(response => response.json())
         .then(data => {
-            // alert(data["success"]);
-            // props.setNewLabel(data.label);
             props.setNewLabel(data["success"])
         })
     }

@@ -20,10 +20,6 @@ function LogIn(props) {
     
         function logUserIn(evt) {
             evt.preventDefault();
-            
-            // const userDetails = {"email": document.getElementById("login-email").value,
-            //                     "password": document.getElementById("login-password").value};
-
             const userDetails = {"email": userEmail,
                                 "password": userPassword};
     
@@ -32,10 +28,8 @@ function LogIn(props) {
                 credentials: "include",
                 body: JSON.stringify(userDetails),
                 headers: {
-                    // 'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                // mode: "cors"
             })
             .then (response => response.json())
             .then(data => {

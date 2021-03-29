@@ -21,7 +21,6 @@ function EventDetails(props) {
         })
         .then((response) => response.json())
         .then((data) => {
-            console.log(" What is going on here???",data)
             setBooksVotedFor(data["booksVotedFor"])
             setEventsBooksVotes(data["allEventsBooks"])
         })

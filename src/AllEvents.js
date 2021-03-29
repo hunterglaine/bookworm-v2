@@ -12,32 +12,34 @@ function AllEvents(props) {
     const [currentEvent, setCurrentEvent] = useState(null)
     let history = useHistory();
 
-    const addAttendee = () => {
-            
-        console.log(currentEvent)
-        
-        fetch('/attendee', {
-            method: "POST",
-            credentials: "include",
-            body: JSON.stringify({"event": currentEvent}),
-            headers: {
-                    'Content-Type': 'application/json'
-                },
-        })
-        .then(response => response.json())
-        .then(data => {
-            if ("error" in data) {
-                alert(data["error"]);
-            }
-            else {
-            alert(data["success"])
-            history.push("/users-events")
-            } 
-        })
-    }
-
+    
     useEffect(() => {
-        if (currentEvent) addAttendee();
+        if (currentEvent) {
+            const addAttendee = () => {
+            
+                console.log(currentEvent)
+                
+                fetch('/attendee', {
+                    method: "POST",
+                    credentials: "include",
+                    body: JSON.stringify({"event": currentEvent}),
+                    headers: {
+                            'Content-Type': 'application/json'
+                        },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if ("error" in data) {
+                        alert(data["error"]);
+                    }
+                    else {
+                    alert(data["success"])
+                    history.push("/users-events")
+                    } 
+                })
+            }
+            addAttendee()
+        };
     }, [currentEvent])
 
     useEffect(() => {

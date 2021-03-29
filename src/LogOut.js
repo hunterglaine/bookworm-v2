@@ -21,7 +21,7 @@ function LogOut(props) {
                 history.push("/login")
                 alert(data["success"])
             }
-    )}, []);
+    )},);
 
         return <p>You have been successfully logged out!</p>
 }

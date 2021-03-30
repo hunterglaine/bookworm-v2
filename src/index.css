@@ -61,7 +61,7 @@ img#logo {
 .toggle-button {
     margin: 2rem 0;
     background-color: #7db6a3 !important;
-    border: none;
+    border: none !important;
     color: #000000 !important;
     padding: 10px 10px !important;
     text-align: center;

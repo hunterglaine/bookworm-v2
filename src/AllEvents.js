@@ -40,7 +40,8 @@ function AllEvents(props) {
             }
             addAttendee()
         };
-    }, [currentEvent])
+    })
+    // },[currentEvent, history])
 
     useEffect(() => {
         fetch("/events")

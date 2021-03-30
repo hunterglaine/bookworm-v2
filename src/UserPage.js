@@ -33,15 +33,17 @@ function UserPage(props) {
         .then((data) => props.setBookshelfCategories(data))
     }, [props.newLabel])
 
-
+    let i = 0;
     for (const category of props.bookshelfCategories) {
         userBookshelf.push(<CategoryContainer 
+                            key={i}
                             label={category[0]} 
                             books={category[1]} 
                             setBookForDetails={props.setBookForDetails}
                             setNewLabel={props.setNewLabel}
                             eventId={eventId}
                             type={type} />)
+        i++;
     }
     return (
         <div>

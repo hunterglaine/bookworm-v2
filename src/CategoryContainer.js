@@ -81,17 +81,17 @@ function CategoryContainer(props) {
         <Container className="bookshelf">
         <Row>
             <Col sm={4}><h3 className="label-bg">{props.label}</h3></Col>
-            <Col sm={4}>
+            <Col sm={3.4}>
             <Form id={`change-label-${props.label}`} onSubmit={updateCategory} style={{visibility: "hidden"}} >
                 <FormControl className="margin-down" type="text" placeholder={props.label} onChange={(e) => labelChange.current = (e.target.value)}  />
                 <Button className="button" type="button" onClick={showForm(0)}>Nevermind</Button>
                 <Button className="button" type="submit" >Submit</Button>
             </Form>
             </Col>
-            <Col sm={2}>
+            <Col sm={2.4}>
             <Button className="button" onClick={showForm(1)}>Change Shelf Name</Button>
             </Col>
-            <Col sm={2}>
+            <Col sm={2.2}>
             <Button className="button" onClick={deleteCategory}>Delete Shelf</Button>
             </Col>
         </Row>

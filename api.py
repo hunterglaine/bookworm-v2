@@ -8,17 +8,14 @@ app = Flask(__name__)
 app.secret_key = "hgJGF#^t7834yhagT&#*ggsdyuyye8q4uirhe8yhGgjhjkhy472ywulg;kjp'l37"
 CORS(app)
 
-@app.route('/hello')
-def say_hello_world():
-    return {'result': "Hello World"}
 
 @app.route("/users", methods=["GET","POST"])
-def create_new_user():
+def create_or_get_user():
     """Create a new user or get info about existing user."""
 
     if request.method == "GET":
-        if session.get("user"):
-            user_id = session["user"]
+        if session.get("user_id"):
+            user_id = session["user_id"]
             user = crud.get_user_by_id(user_id)
             user = user.to_dict()
             print("USERUSERUSER", user)
@@ -53,7 +50,7 @@ def log_in_user():
 
     if user:
             if user.check_password(password):
-                session["user"] = user.id
+                session["user_id"] = user.id
                 return jsonify ({"success": "Successfully logged in!",
                                 "user_id": user.id,
                                 "user_first_name": user.first_name})
@@ -77,14 +74,14 @@ def log_out_user():
 def get_and_update_categories():
     """Gets or updates a user's categories"""
 
-    if session.get("user"):
-        user_id = session["user"]
+    if session.get("user_id"):
+        user_id = session["user_id"]
 
         if request.method == "GET":
             categories = []
 
-            category_objects = crud.get_all_user_categories(session["user"])
-            # category_objects = crud.get_all_user_categories(session["user"].id)
+            category_objects = crud.get_all_user_categories(session["user_id"])
+            # category_objects = crud.get_all_user_categories(session["user_id"].id)
 
             for category_object in category_objects:
 
@@ -175,8 +172,8 @@ def get_and_update_categories():
 def get_user_data():
     """Returns user's categories and books within them"""
 
-    if session.get("user"):
-        user_id = session["user"]
+    if session.get("user_id"):
+        user_id = session["user_id"]
 
         if request.method == "POST":
             new_first_name = request.json.get("newFirstName")
@@ -219,8 +216,8 @@ def get_user_data():
 def create_new_event():
     """Creates a new event"""
 
-    if session.get("user"):
-        host_id = session["user"]
+    if session.get("user_id"):
+        host_id = session["user_id"]
         city = request.json.get("city")
         state = request.json.get("state")
         eventDate = request.json.get("eventDate")
@@ -241,8 +238,8 @@ def create_new_event():
 def get_user_events():
     """Returns user's events, hosting and attending"""
 
-    if session.get("user"):
-        user_id = session["user"]
+    if session.get("user_id"):
+        user_id = session["user_id"]
 
         users_events = crud.get_all_events_for_user(user_id)
         # A list of the user's event objects
@@ -312,7 +309,7 @@ def get_user_events():
 def update_event_books():
     """Updates the status of can_suggest_books and can_vote on an event"""
 
-    if session.get("user"):
+    if session.get("user_id"):
         event_id = request.json.get("event_id")
         update_type = request.json.get("update_type")
 
@@ -352,7 +349,7 @@ def update_event_books():
 @app.route("/vote", methods=["GET", "POST"])
 def update_event_book_votes():
     """Increases the number of votes on a given event book"""
-    user_id = session.get("user")
+    user_id = session.get("user_id")
 
     events = crud.get_all_events_for_user(user_id)
     all_events = {}
@@ -450,7 +447,7 @@ def get_all_events():
 def update_event_attendee():
     """Adds a user to an event as an attendee"""
 
-    user_id = session.get("user")
+    user_id = session.get("user_id")
     event_id = request.json.get("event")
     event = crud.get_event_by_id(event_id)
     user = crud.get_user_by_id(user_id)

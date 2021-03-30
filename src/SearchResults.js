@@ -16,7 +16,7 @@ function SearchResults(props) {
         .then (response => response.json())
         .then (result => setBooks(result.items))
         .then(window.scrollTo(0, 0))
-        }, [props.bookQuery])    
+    }, [props.bookQuery])    
 
         
     let i = 0

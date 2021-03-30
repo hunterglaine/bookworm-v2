@@ -93,9 +93,9 @@ function EventDetails(props) {
                 alert(data["error"])
             }
             else {
-                alert(data["success"])
                 props.setChangeInEvent(data)
                 props.setChangeInEvent(null)
+                // alert(data["success"])
             }
         })
     } 

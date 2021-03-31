@@ -45,6 +45,7 @@ function UserPage(props) {
                             type={type} />)
         i++;
     }
+    
     return (
         <div>
             <Row className="m-0">

@@ -18,7 +18,6 @@ def create_or_get_user():
             user_id = session["user_id"]
             user = crud.get_user_by_id(user_id)
             user = user.to_dict()
-            print("USERUSERUSER", user)
             return jsonify (user)
 
     if request.method == "POST":
@@ -64,8 +63,7 @@ def log_in_user():
 def log_out_user():
     """Log a user out and show them they were successful or not."""
   
-    user_id = session.pop("user")
-    # user = session.pop("user")
+    user_id = session.pop("user_id")
     user = crud.get_user_by_id(user_id)
 
     return jsonify ({"success": f"{user.first_name}, you have been successfully logged out! Come back soon, and happy reading!"})
@@ -78,13 +76,12 @@ def get_and_update_categories():
         user_id = session["user_id"]
 
         if request.method == "GET":
+            # get and return all of the user's categories
             categories = []
 
             category_objects = crud.get_all_user_categories(session["user_id"])
-            # category_objects = crud.get_all_user_categories(session["user_id"].id)
 
             for category_object in category_objects:
-
                 dict_category = category_object.to_dict()
                 categories.append(dict_category)
 
@@ -92,8 +89,8 @@ def get_and_update_categories():
 
         elif request.method == "POST":
             if request.json.get("label"):
+                # if "label" is sent with the request, ccreate a new category
                 label = request.json.get("label")
-
                 user = crud.get_user_by_id(user_id)
             
                 if crud.get_category_by_label(user_id, label):
@@ -102,7 +99,10 @@ def get_and_update_categories():
                 new_category = crud.create_category(user_id, label)
 
                 return jsonify ({"success": f"{new_category.label} has been added to {user.first_name}'s bookshelf!"})
+
             else:
+                # Otherwise, if "old_label" and "new_label" are sent, update 
+                # category label
                 old_label = request.json.get("old_label")
                 new_label = request.json.get("new_label")
 
@@ -112,6 +112,7 @@ def get_and_update_categories():
                                 "label": new_label})
 
         elif request.method == "PUT":
+            # If book or category doesn't exist, create it and add book to category 
             label = request.json.get("label")
             book_dict = request.json.get("book")
             isbn = book_dict["id"]
@@ -119,7 +120,6 @@ def get_and_update_categories():
             category = crud.get_category_by_label(user_id, label)
         
             if not book:
-                print("This is the format of the authors", book_dict["volumeInfo"]["authors"])
                 authors = ""
                 for author in book_dict["volumeInfo"]["authors"]:
                     authors += f"{author} "
@@ -149,6 +149,7 @@ def get_and_update_categories():
             # 'books_in_category': added_books
 
         elif request.method == "DELETE":
+            # Removed category from user's categories
             if request.json.get("label"):
                 label = request.json.get("label")
                 crud.delete_category(label, user_id)

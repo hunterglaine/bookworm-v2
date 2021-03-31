@@ -32,7 +32,7 @@ function UserEvents(props) {
                 setMyEvents(data)
             }
         })
-    }, [changeInEvent])
+    }, [changeInEvent, history])
   
 
     useEffect(() => {

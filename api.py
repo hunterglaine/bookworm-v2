@@ -171,12 +171,13 @@ def get_and_update_categories():
 
 @app.route("/user-data", methods=["GET", "POST"])
 def get_user_data():
-    """Returns user's categories and books within them"""
+    """Updates or retrieves user account information"""
 
     if session.get("user_id"):
         user_id = session["user_id"]
 
         if request.method == "POST":
+            # Updates user account information 
             new_first_name = request.json.get("newFirstName")
             new_last_name = request.json.get("newLastName")
             new_email = request.json.get("newEmail")
@@ -192,6 +193,7 @@ def get_user_data():
             return jsonify ({"success": "Your account has successfully been updated"})
 
         if request.method == "GET":
+            # Returns user's categories and books within them
             category_labels = crud.get_all_user_category_labels(user_id)
             # A list of the user's category names
 
@@ -225,8 +227,8 @@ def create_new_event():
         startTime = request.json.get("startTime")
         endTime = request.json.get("endTime")
 
-        # attendee = crud.get_user_by_id(host_id)
         new_event = crud.create_event(host_id, city, eventDate, startTime, endTime, state)
+        # Add host as an attendee of the event
         crud.create_event_attendee(host_id, new_event.id)
 
         return jsonify ({"success": f"Your event has successfully been created for {eventDate} at {startTime}"})

@@ -14,10 +14,7 @@ import Book from "./Book"
 function CategoryContainer(props) {
     
     const labelChange = useRef("");
-    const booksInCategory = []
-
-    console.log("This is new label",props.newLabel)
-    console.log("THIS is label up top", props.label)
+    const booksInCategory = [];
 
     const showForm = (arg) => (evt) => {
         evt.preventDefault();

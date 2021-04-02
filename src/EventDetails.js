@@ -79,7 +79,7 @@ function EventDetails(props) {
     const unAttend = (evt) => {
         evt.preventDefault();
 
-        fetch("/attendee", {
+        fetch("/user-events", {
             method: "DELETE",
             credentials: "include",
             body: JSON.stringify({"event": event.id}),

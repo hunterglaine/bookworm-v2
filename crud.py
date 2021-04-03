@@ -493,6 +493,14 @@ def remove_attendee_from_event(user_id, event_id):
     event.users.remove(user)
     db.session.commit()
 
+def delete_event(event_id):
+    """Deletes an event"""
+
+    event = get_event_by_id(event_id)
+
+    db.session.delete(event)
+    db.session.commit()
+
 
 if __name__ == "__main__":
     from api import app

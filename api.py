@@ -434,35 +434,34 @@ def update_event_book_votes():
                         "allEventsBooks": all_events})
     
 
-@app.route("/events") 
+@app.route("/events", methods=["GET", "DELETE"]) 
 def get_all_events():
     """Returns all events that are not private"""
 
-    events = crud.get_all_events()
+    if request.method == "GET":
+        events = crud.get_all_events()
+        today = date.today()
 
-    # all_events = []
-    today = date.today()
+        all_events = {"past": [], "upcoming": []}
 
-    all_events = {"past": [], "upcoming": []}
-
-    for event in events:
-        event = event.to_dict()
-        host = crud.get_user_by_id(event["host_id"]).to_dict()
-        attendee_users = crud.get_all_attendees(event["id"])
-        attendees = [attendee.to_dict() for attendee in attendee_users if attendee.id != host["id"]]
-        
-        event["attending"] = attendees
-        event["host"] = host
-        if today <= event["event_date"]:
-            all_events["upcoming"].append(event)
-        else: 
-            all_events["past"].append(event)
-        # all_events.append(event)
-
-    # all_events_dict = {"events": all_events}
-
-    # return jsonify (all_events_dict)
-    return jsonify (all_events)
+        for event in events:
+            event = event.to_dict()
+            host = crud.get_user_by_id(event["host_id"]).to_dict()
+            attendee_users = crud.get_all_attendees(event["id"])
+            attendees = [attendee.to_dict() for attendee in attendee_users if attendee.id != host["id"]]
+            
+            event["attending"] = attendees
+            event["host"] = host
+            if today <= event["event_date"]:
+                all_events["upcoming"].append(event)
+            else: 
+                all_events["past"].append(event)
+            
+        return jsonify (all_events)
+    
+    if request.method == "DELETE":
+        event_id = request.json.get("event_id")
+        crud.delete_event(event_id)
 
 
 @app.route("/add-book-to-event", methods=["POST"])
@@ -474,8 +473,8 @@ def add_book_to_event():
     event = crud.get_event_by_id(event_id)
     book = crud.get_book_by_isbn(isbn)
 
-    if book not in crud.get_all_books_for_event(event_id): # CHANGED
-        crud.create_event_book(event, book) # CHANGED
+    if book not in crud.get_all_books_for_event(event_id):
+        crud.create_event_book(event, book)
 
         return jsonify({"success": f"You have suggested {book.title}"})
     

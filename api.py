@@ -62,8 +62,9 @@ def log_in_user():
 @app.route("/logout", methods=["POST"])
 def log_out_user():
     """Log a user out and show them they were successful or not."""
-  
+    print("This is the session before popping", session)
     user_id = session.pop("user_id")
+    print("This is the popped user id", user_id)
     user = crud.get_user_by_id(user_id)
 
     return jsonify ({"success": f"{user.first_name}, you have been successfully logged out! Come back soon, and happy reading!"})
@@ -462,6 +463,8 @@ def get_all_events():
     if request.method == "DELETE":
         event_id = request.json.get("event_id")
         crud.delete_event(event_id)
+
+        return jsonify ({"success": f"Your event has been successfully deleted."})
 
 
 @app.route("/add-book-to-event", methods=["POST"])

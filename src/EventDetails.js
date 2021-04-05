@@ -176,7 +176,7 @@ function EventDetails(props) {
                     Start the Voting
                 </Button>
                 }
-                {/* <Button className="button" onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) onComfirm(deleteEvent(event.id))}}>  */}
+                {/* <Button className="button" onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) onConfirm(deleteEvent(event.id))}}>  */}
                 <Button className="button" onClick={deleteEvent(event.id)}>
                     Delete Event
                 </Button>

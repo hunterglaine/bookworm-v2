@@ -328,22 +328,23 @@ def get_create_user_events():
         return jsonify ({"success": f"You are now attending the {event.city} book club on {event.event_date}!"})
 
 
-@app.route("/event-books", methods=["POST"])
+@app.route("/event-books", methods=["POST", "PUT"])
 def update_event_books():
     """Updates the status of can_suggest_books and can_vote on an event"""
 
-    if session.get("user_id"):
-        event_id = request.json.get("event_id")
-        update_type = request.json.get("update_type")
+    if request.method == "POST":
+        if session.get("user_id"):
+            event_id = request.json.get("event_id")
+            update_type = request.json.get("update_type")
 
-        if update_type == "suggest":
-            crud.update_event_suggesting(event_id)
-        
-            return jsonify({"success": "Event books has been updated"})
-        
-        if update_type == "vote":
-            crud.update_voting(event_id)
-            event = crud.get_event_by_id(event_id)
+            if update_type == "suggest":
+                crud.update_event_suggesting(event_id)
+            
+                return jsonify({"success": "Event books has been updated"})
+            
+            if update_type == "vote":
+                crud.update_voting(event_id)
+                event = crud.get_event_by_id(event_id)
             if not event.can_vote:
                 events_books = crud.get_all_events_books(event_id)
                 vote_totals_dict = {}
@@ -367,6 +368,21 @@ def update_event_books():
                 
 
             return jsonify({"success": "Voting has been updated"})
+
+    if request.method == "PUT":
+        event_id = request.json.get("event_id")
+        isbn = request.json.get("isbn")
+
+        event = crud.get_event_by_id(event_id)
+        book = crud.get_book_by_isbn(isbn)
+
+        if book not in crud.get_all_books_for_event(event_id):
+            crud.create_event_book(event, book)
+
+            return jsonify({"success": f"You have suggested {book.title}"})
+        
+        else:
+            return jsonify({"error": f"That book has already been suggested for the event."})
 
 
 @app.route("/vote", methods=["GET", "POST"])
@@ -465,24 +481,6 @@ def get_all_events():
         crud.delete_event(event_id)
 
         return jsonify ({"success": f"Your event has been successfully deleted."})
-
-
-@app.route("/add-book-to-event", methods=["POST"])
-def add_book_to_event():
-
-    event_id = request.json.get("event_id")
-    isbn = request.json.get("isbn")
-
-    event = crud.get_event_by_id(event_id)
-    book = crud.get_book_by_isbn(isbn)
-
-    if book not in crud.get_all_books_for_event(event_id):
-        crud.create_event_book(event, book)
-
-        return jsonify({"success": f"You have suggested {book.title}"})
-    
-    else:
-        return jsonify({"error": f"That book has already been suggested for the event."})
 
 
 if __name__ == "__main__":

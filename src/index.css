@@ -67,7 +67,7 @@ img#logo {
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 14px;
+    font-size: 14px !important;
 }
 
 .button {

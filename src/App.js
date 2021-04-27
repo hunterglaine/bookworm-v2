@@ -33,8 +33,8 @@ function App() {
   const [newLabel, setNewLabel] = useState(null);
 
   useEffect(() => {
-    if (localStorage.getItem("userId") !== "null") {
-      setUserLoggedIn({userId: localStorage.getItem("userId"), userFirstName: localStorage.getItem("userFirstName")})
+    if (localStorage.getItem("accessToken") !== "null") {
+      setUserLoggedIn({userId: localStorage.getItem("userId"), userFirstName: localStorage.getItem("userFirstName"), accessToken: localStorage.getItem("accessToken")})
   }
   window.scrollTo(0, 0)
   }, [])

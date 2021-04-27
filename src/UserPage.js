@@ -26,7 +26,10 @@ function UserPage(props) {
     
     useEffect(() =>  {
         fetch("/user-data", {
-            method: "GET"
+            method: "GET",
+            headers: {
+                'Authorization': `Bearer ${props.userLoggedIn.accessToken}`
+            },
         })
         .then (response => response.json())
         .then ((result) => Object.entries(result))
@@ -45,7 +48,7 @@ function UserPage(props) {
                             type={type} />)
         i++;
     }
-    
+
     return (
         <div>
             <Row className="m-0">

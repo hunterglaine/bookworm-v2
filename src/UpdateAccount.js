@@ -10,13 +10,16 @@ import {
 } from 'react-bootstrap';
 
 
-function UpdateAccount() {
+function UpdateAccount(props) {
     let history = useHistory();
     const [userInfo, setUserInfo] = useState({});
 
     useEffect(() => {
         fetch("/users", {
-            method: "GET"
+            method: "GET",
+            headers: {
+                'Authorization': `Bearer ${props.userLoggedIn.accessToken}`
+            },
         })
         .then((response) => response.json())
         .then((data) => {

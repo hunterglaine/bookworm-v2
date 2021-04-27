@@ -10,8 +10,6 @@ import {
 } from "react-bootstrap";
 
 
-
-
 function LogIn(props) {
     const[userEmail, setUserEmail] = useState('');
     const[userPassword, setUserPassword] = useState('');
@@ -38,9 +36,10 @@ function LogIn(props) {
                     history.push("/login");
                 }
                 else {
+                    localStorage.setItem("accessToken", data["access_token"])
                     localStorage.setItem("userId", data["user_id"])
                     localStorage.setItem("userFirstName", data["user_first_name"])
-                    props.setUserLoggedIn({userId: data["user_id"], userFirstName: data["user_first_name"]});
+                    props.setUserLoggedIn({userId: data["user_id"], userFirstName: data["user_first_name"], accessToken: data["access_token"]});
                     history.push("/user/home/browsing")
                 // redirect using useHistory to a User Detail page -> nav bar (w/ logout and search on top), horizontal row, category and books within for each
                 }

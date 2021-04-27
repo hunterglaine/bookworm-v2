@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, flash, session, redirect, jsonify, json
+from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, JWTManager
 from flask_cors import CORS
 from model import connect_to_db, db
 import crud
@@ -8,17 +9,24 @@ app = Flask(__name__)
 app.secret_key = "hgJGF#^t7834yhagT&#*ggsdyuyye8q4uirhe8yhGgjhjkhy472ywulg;kjp'l37"
 CORS(app)
 
+# Setup the Flask-JWT-Extended extension
+app.config["JWT_SECRET_KEY"] = "Hfhjsgrki*3897gtr%3FVGFjigUEY73"
+jwt = JWTManager(app)
+
 
 @app.route("/users", methods=["GET","POST"])
+@jwt_required(optional=True)
 def create_or_get_user():
     """Create a new user or get info about existing user."""
 
     if request.method == "GET":
-        if session.get("user_id"):
-            user_id = session["user_id"]
-            user = crud.get_user_by_id(user_id)
-            user = user.to_dict()
-            return jsonify (user)
+        # if session.get("user_id"):
+        #     user_id = session["user_id"]
+        user_id = get_jwt_identity()
+        print("USERS ROUTE USER_ID", user_id)
+        user = crud.get_user_by_id(user_id)
+        user = user.to_dict()
+        return jsonify (user)
 
     if request.method == "POST":
         first_name = request.json.get("first_name")
@@ -47,25 +55,28 @@ def log_in_user():
 
     if user:
             if user.check_password(password):
-                session["user_id"] = user.id
+                # session["user_id"] = user.id
+                access_token = create_access_token(identity=user.id)
+                print("THIS IS THE ACCESS TOKEN",access_token)
                 return jsonify ({"success": "Successfully logged in!",
                                 "user_id": user.id,
-                                "user_first_name": user.first_name})
+                                "user_first_name": user.first_name,
+                                "access_token": access_token})
             else:
                 return jsonify ({"error": "Incorrect password. Please try again or create a new account."})
     else:
         return jsonify ({"error": "Sorry, but no account exists with that email."})
 
 
-@app.route("/logout", methods=["POST"])
-def log_out_user():
-    """Log a user out and show them they were successful or not."""
-    print("This is the session before popping", session)
-    user_id = session.pop("user_id")
-    print("This is the popped user id", user_id)
-    user = crud.get_user_by_id(user_id)
+# @app.route("/logout", methods=["POST"])
+# def log_out_user():
+#     """Log a user out and show them they were successful or not."""
+#     # print("This is the session before popping", session)
+#     # user_id = session.pop("user_id")
+#     # print("This is the popped user id", user_id)
+#     user = crud.get_user_by_id(user_id)
 
-    return jsonify ({"success": f"{user.first_name}, you have been successfully logged out! Come back soon, and happy reading!"})
+#     return jsonify ({"success": f"{user.first_name}, you have been successfully logged out! Come back soon, and happy reading!"})
 
 @app.route("/categories", methods=["GET", "POST", "PUT", "DELETE"])
 def get_and_update_categories():
@@ -169,47 +180,50 @@ def get_and_update_categories():
 
 
 @app.route("/user-data", methods=["GET", "POST"])
+@jwt_required()
 def get_user_data():
     """Updates or retrieves user account information"""
 
-    if session.get("user_id"):
-        user_id = session["user_id"]
+    # if session.get("user_id"):
+    #     user_id = session["user_id"]
+    user_id = get_jwt_identity()
+    print(f"This is the user id token thing: {user_id}")
 
-        if request.method == "POST":
-            # Updates user account information 
-            new_first_name = request.json.get("newFirstName")
-            new_last_name = request.json.get("newLastName")
-            new_email = request.json.get("newEmail")
-            new_city = request.json.get("newCity")
-            new_state = request.json.get("newState")
-            old_password = request.json.get("oldPassword")
-            new_password = request.json.get("newPassword")
+    if request.method == "POST":
+        # Updates user account information 
+        new_first_name = request.json.get("newFirstName")
+        new_last_name = request.json.get("newLastName")
+        new_email = request.json.get("newEmail")
+        new_city = request.json.get("newCity")
+        new_state = request.json.get("newState")
+        old_password = request.json.get("oldPassword")
+        new_password = request.json.get("newPassword")
 
-            crud.update_user_account(user_id, new_first_name, new_last_name, 
-                                    new_email, new_city, new_state, 
-                                    old_password, new_password)
+        crud.update_user_account(user_id, new_first_name, new_last_name, 
+                                new_email, new_city, new_state, 
+                                old_password, new_password)
 
-            return jsonify ({"success": "Your account has successfully been updated"})
+        return jsonify ({"success": "Your account has successfully been updated"})
 
-        if request.method == "GET":
-            # Returns user's categories and books within them
-            category_labels = crud.get_all_user_category_labels(user_id)
-            # A list of the user's category names
+    if request.method == "GET":
+        # Returns user's categories and books within them
+        category_labels = crud.get_all_user_category_labels(user_id)
+        # A list of the user's category names
 
-            category_dict = {}
+        category_dict = {}
+        book_list = []
+        for category in category_labels:
+            books = crud.get_all_books_in_category(user_id, category)
+            for book in books:
+                book_list.append(book.to_dict())
+            
+            category_dict[category] = book_list
             book_list = []
-            for category in category_labels:
-                books = crud.get_all_books_in_category(user_id, category)
-                for book in books:
-                    book_list.append(book.to_dict())
-                
-                category_dict[category] = book_list
-                book_list = []
 
-            return jsonify (category_dict)
+        return jsonify (category_dict)
 
-    else:
-        return jsonify ({'error': 'User must be logged in to view this page.'})
+    # else:
+    #     return jsonify ({'error': 'User must be logged in to view this page.'})
 
 
 #### EVENT ROUTES ####

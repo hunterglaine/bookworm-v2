@@ -7,7 +7,7 @@ Bookworm is single-page application book database that gives avid readers the ab
 Check out the demo here: https://www.youtube.com/watch?v=4XsmJQI-Rao
 
 
-Visit the live site here: http://www.bookworm-app.com/
+<!-- Visit the live site here: http://www.bookworm-app.com/ -->
 
 Table of Contents
 ------
@@ -66,7 +66,7 @@ To install Bookworm:
 
 Clone this repository:
 
-```$ git clone https://github.com/hunterglaine/bookworm.git```
+```$ git clone https://github.com/hunterglaine/bookworm-v2.git```
 
 Create and activate a virtual environment:
 
@@ -88,15 +88,19 @@ Create the database:
 
     (env) $ python3 seed_database.py
 
-Start the server:
+Start the Flask server from the root directory:
 
-    (env) $ python3 server.py
+    (env) $ python3 ./backend/api.py
 
-Now, head to `http://localhost:5000/` to start curating your bookshelf and attending book clubs!
+In a separate terminal, start the React server:
+
+    npm start
+
+A window should open up at `http://localhost:3001/` so you can start curating your bookshelf and attending book clubs!
 
 
 Contact
 ------
-If you want to contact me you can reach me at hunterglaine@gmail.com.
+If you want to contact me, you can reach me at hunterglaine@gmail.com.
 
 ## Happy Reading! 📚

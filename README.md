@@ -1,70 +1,102 @@
-# Getting Started with Create React App
+![Bookworm](/static/img/tiny_bookworm_logo.png "Bookworm")
+Bookworm
+======
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Bookworm is single-page application book database that gives avid readers the ability to search for, store, and categorize books from the GoogleBooks API into a personal bookshelf. Users can create and attend book club events, where all attendees can suggest books from their shelves, read further information about each suggested book, and ultimately vote on the book to read. The current vote count for each book is displayed to all attendees, and when voting is stopped, the book with the most votes is the one that remains.
 
-## Available Scripts
+Check out the demo here: https://www.youtube.com/watch?v=4XsmJQI-Rao
 
-In the project directory, you can run:
 
-### `yarn start`
+Visit the live site here: http://www.bookworm-app.com/
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Table of Contents
+------
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+[Tech Stack](#tech-stack)
 
-### `yarn test`
+[Features](#features)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+[Installation](#installation)
 
-### `yarn build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Tech Stack
+------
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+| <!-- -->    | <!-- -->    |
+|:-------------|:-------------|
+| **Backend**      | Python 3, SQLAlchemy, Flask |
+| **Frontend**     | JavaScript, React, HTML5, CSS3, React-Bootstrap |
+| **Database**     | PostgreSQL |
+| **APIs**         | Google Books |
+| <!-- -->    | <!-- -->    |
 
-### `yarn eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Features
+------
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+<!-- + Create an account -->
+### Login/Logout
+![Login/Logout](/static/img/login-gif.gif)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Search for books and add to your bookshelf
+![Search and add books](/static/img/search-and-add-to-category.gif)
 
-## Learn More
+### Parouse bookshelf of saved books
+![Parouse bookshelf](/static/img/parouse-bookshelf.gif)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### See all upcoming/past book clubs hosted and attended
+![Upcoming and past events](/static/img/upcoming-and-past-events.gif)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Suggest books for book clubs
+![Suggest books](/static/img/suggest-book.gif)
 
-### Code Splitting
+### Vote for books
+![Vote for books](/static/img/vote-for-books.gif)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+Installation
+------
+In order to use Bookworm, you will first need:
++ Python 3.6.9
++ PostreSQL 10.15
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+To install Bookworm:
 
-### Making a Progressive Web App
+Clone this repository:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```$ git clone https://github.com/hunterglaine/bookworm.git```
 
-### Advanced Configuration
+Create and activate a virtual environment:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Mac:
 
-### Deployment
+    $ virtualenv env
+    $ source env/bin/activate
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Windows:
 
-### `yarn build` fails to minify
+    $ virtualenv env --always-copy
+    $ source env/bin/activate
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Install dependencies:
+
+    (env) $ pip3 install -r requirements.txt
+
+Create the database: 
+
+    (env) $ python3 seed_database.py
+
+Start the server:
+
+    (env) $ python3 server.py
+
+Now, head to `http://localhost:5000/` to start curating your bookshelf and attending book clubs!
+
+
+Contact
+------
+If you want to contact me you can reach me at hunterglaine@gmail.com.
+
+## Happy Reading! 📚

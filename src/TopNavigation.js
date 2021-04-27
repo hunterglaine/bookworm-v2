@@ -25,6 +25,7 @@ function TopNavigation(props) {
               setBookQuery={props.setBookQuery} 
               userCategories={props.userCategories} 
               setUserCategories={props.setUserCategories} 
+              userLoggedIn={props.userLoggedIn} 
             />
           
           <Nav as="ul" className="ml-auto p-2">

@@ -27,7 +27,8 @@ function BookDetails(props) {
                                     "isbn": props.bookForDetails.isbn,
                                     "title": props.bookForDetails.title}),
             headers: {
-                'Content-Type': 'application/json'
+                'Authorization': `Bearer ${props.userLoggedIn.accessToken}`,
+                'Content-Type': 'application/json',
             },
         })
         .then(response => response.json())

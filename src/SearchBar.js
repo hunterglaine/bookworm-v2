@@ -16,9 +16,15 @@ function SearchBar(props) {
         evt.preventDefault();
         const urlQuery = document.getElementById("book-search").value
         props.setBookQuery(document.getElementById("book-search").value)
+        console.log(props.userLoggedIn.accessToken)
 
-        fetch("/categories")
-        .then (response => response.json())
+        fetch("/categories", { 
+            method: "GET",
+            headers: {
+                'Authorization': `Bearer ${props.userLoggedIn.accessToken}`
+            },
+        })
+        .then(response => response.json())
         .then(result => {console.log(result["categories"]); return result;})
         .then((data) => {
             props.setUserCategories(data["categories"])

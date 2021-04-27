@@ -37,6 +37,7 @@ function CategoryContainer(props) {
                 body: JSON.stringify({"old_label": props.label,
                                     "new_label": labelChange.current}),
                 headers: {
+                    'Authorization': `Bearer ${props.userLoggedIn.accessToken}`,
                     'Content-Type': 'application/json'
                 },
             })
@@ -55,6 +56,7 @@ function CategoryContainer(props) {
             credentials: "include",
             body: JSON.stringify({"label": props.label}),
             headers: {
+                'Authorization': `Bearer ${props.userLoggedIn.accessToken}`,
                 'Content-Type': 'application/json'
             },
         })

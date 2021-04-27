@@ -23,7 +23,6 @@ function UpdateAccount(props) {
         })
         .then((response) => response.json())
         .then((data) => {
-            console.log("THIS IS userInfo",data)
             setUserInfo(data)
         })
     }, [])

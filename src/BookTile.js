@@ -42,7 +42,8 @@ function BookTile(props) {
                 credentials: "include",
                 body: JSON.stringify(categoryDetails),
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Authorization': `Bearer ${props.userLoggedIn.accessToken}`,
+                    'Content-Type': 'application/json',
                 },
             })
             .then (response => response.json())

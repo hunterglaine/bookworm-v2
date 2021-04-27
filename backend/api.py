@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, flash, session, redirect, jsonify, json
-from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, JWTManager
+from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, JWTManager, set_access_cookies, unset_jwt_cookies, get_jwt
 from flask_cors import CORS
+from datetime import datetime, timedelta, timezone
 from model import connect_to_db, db
 import crud
 from datetime import date
@@ -11,7 +12,25 @@ CORS(app)
 
 # Setup the Flask-JWT-Extended extension
 app.config["JWT_SECRET_KEY"] = "Hfhjsgrki*3897gtr%3FVGFjigUEY73"
+app.config["JWT_COOKIE_SECURE"] = False
+app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 jwt = JWTManager(app)
+
+
+@app.after_request
+def refresh_expiring_jwts(response):
+    try:
+        exp_timestamp = get_jwt()["exp"]
+        now = datetime.now(timezone.utc)
+        target_timestamp = datetime.timestamp(now + timedelta(minutes=30))
+        if target_timestamp > exp_timestamp:
+            access_token = create_access_token(identity=get_jwt_identity())
+            set_access_cookies(response, access_token)
+        return response
+    except (RuntimeError, KeyError):
+        # Case where there is not a valid JWT. Just return the original respone
+        return response
 
 
 @app.route("/users", methods=["GET","POST"])
@@ -57,108 +76,121 @@ def log_in_user():
             if user.check_password(password):
                 # session["user_id"] = user.id
                 access_token = create_access_token(identity=user.id)
-                print("THIS IS THE ACCESS TOKEN",access_token)
-                return jsonify ({"success": "Successfully logged in!",
+                response = jsonify ({"success": "Successfully logged in!",
                                 "user_id": user.id,
                                 "user_first_name": user.first_name,
                                 "access_token": access_token})
+                set_access_cookies(response, access_token)
+                print("THIS IS THE ACCESS TOKEN",access_token)
+                # return jsonify ({"success": "Successfully logged in!",
+                #                 "user_id": user.id,
+                #                 "user_first_name": user.first_name,
+                #                 "access_token": access_token})
+                return response
             else:
                 return jsonify ({"error": "Incorrect password. Please try again or create a new account."})
     else:
         return jsonify ({"error": "Sorry, but no account exists with that email."})
 
 
-# @app.route("/logout", methods=["POST"])
-# def log_out_user():
-#     """Log a user out and show them they were successful or not."""
-#     # print("This is the session before popping", session)
-#     # user_id = session.pop("user_id")
-#     # print("This is the popped user id", user_id)
-#     user = crud.get_user_by_id(user_id)
+@app.route("/logout", methods=["POST"])
+def log_out_user():
+    """Log a user out and show them they were successful or not."""
+    # print("This is the session before popping", session)
+    # user_id = session.pop("user_id")
+    # print("This is the popped user id", user_id)
+    user = crud.get_user_by_id(user_id)
+    response = jsonify ({"success": f"{user.first_name}, you have been successfully logged out! Come back soon, and happy reading!"})
+    unset_jwt_cookies(reponse)
 
-#     return jsonify ({"success": f"{user.first_name}, you have been successfully logged out! Come back soon, and happy reading!"})
+    # return jsonify ({"success": f"{user.first_name}, you have been successfully logged out! Come back soon, and happy reading!"})
+    return response
 
 @app.route("/categories", methods=["GET", "POST", "PUT", "DELETE"])
+@jwt_required()
 def get_and_update_categories():
     """Gets or updates a user's categories"""
 
-    if session.get("user_id"):
-        user_id = session["user_id"]
+    # if session.get("user_id"):
+    #     user_id = session["user_id"]
+    user_id = get_jwt_identity()
 
-        if request.method == "GET":
-            # get and return all of the user's categories
-            categories = []
+    if request.method == "GET":
+        # get and return all of the user's categories
+        categories = []
 
-            category_objects = crud.get_all_user_categories(session["user_id"])
+        # category_objects = crud.get_all_user_categories(session["user_id"])
+        category_objects = crud.get_all_user_categories(user_id)
 
-            for category_object in category_objects:
-                dict_category = category_object.to_dict()
-                categories.append(dict_category)
+        for category_object in category_objects:
+            dict_category = category_object.to_dict()
+            categories.append(dict_category)
+            print("THESE ARE CATSSS", categories)
 
-            return jsonify({"categories": categories})
+        return jsonify({"categories": categories})
 
-        elif request.method == "POST":
-            if request.json.get("label"):
-                # if "label" is sent with the request, ccreate a new category
-                label = request.json.get("label")
-                user = crud.get_user_by_id(user_id)
-            
-                if crud.get_category_by_label(user_id, label):
-                    return ({"error": f"{label} is already in {user.first_name}'s bookshelf!"})
-
-                new_category = crud.create_category(user_id, label)
-
-                return jsonify ({"success": f"{new_category.label} has been added to {user.first_name}'s bookshelf!"})
-
-            else:
-                # Otherwise, if "old_label" and "new_label" are sent, update 
-                # category label
-                old_label = request.json.get("old_label")
-                new_label = request.json.get("new_label")
-
-                crud.update_category_label(user_id, old_label, new_label)
-
-                return jsonify({"success": f"{old_label} has been changed to {new_label}!",
-                                "label": new_label})
-
-        elif request.method == "PUT":
-            # If book or category doesn't exist, create it and add book to category 
+    elif request.method == "POST":
+        if request.json.get("label"):
+            # if "label" is sent with the request, ccreate a new category
             label = request.json.get("label")
-            book_dict = request.json.get("book")
-            isbn = book_dict["id"]
-            book = crud.get_book_by_isbn(isbn)
-            category = crud.get_category_by_label(user_id, label)
+            user = crud.get_user_by_id(user_id)
         
-            if not book:
-                authors = ""
-                for author in book_dict["volumeInfo"]["authors"]:
-                    authors += f"{author} "
-                page_count = book_dict["volumeInfo"].get("pageCount")
-                if not page_count:
-                    page_count = 000
-                book = crud.create_book(isbn, 
-                                        book_dict["volumeInfo"]["title"], 
-                                        authors,
-                                        book_dict["volumeInfo"]["description"], 
-                                        page_count, 
-                                        book_dict["volumeInfo"]["imageLinks"]["thumbnail"])
+            if crud.get_category_by_label(user_id, label):
+                return ({"error": f"{label} is already in {user.first_name}'s bookshelf!"})
 
-            if not category:
-                category = crud.create_category(user_id, label)
+            new_category = crud.create_category(user_id, label)
 
-                added_books = crud.create_book_category(book, category)
-                return jsonify ({"success": f"""A new category, {category.label}, has been added to your bookshelf and {book.title} has been added to it"""})
+            return jsonify ({"success": f"{new_category.label} has been added to {user.first_name}'s bookshelf!"})
 
-            if book in crud.get_all_books_in_category(user_id, label):
-                return jsonify ({"error": f"{book.title} is already in your {category.label} books"})
+        else:
+            # Otherwise, if "old_label" and "new_label" are sent, update 
+            # category label
+            old_label = request.json.get("old_label")
+            new_label = request.json.get("new_label")
+
+            crud.update_category_label(user_id, old_label, new_label)
+
+            return jsonify({"success": f"{old_label} has been changed to {new_label}!",
+                            "label": new_label})
+
+    elif request.method == "PUT":
+        # If book or category doesn't exist, create it and add book to category 
+        label = request.json.get("label")
+        book_dict = request.json.get("book")
+        isbn = book_dict["id"]
+        book = crud.get_book_by_isbn(isbn)
+        category = crud.get_category_by_label(user_id, label)
+    
+        if not book:
+            authors = ""
+            for author in book_dict["volumeInfo"]["authors"]:
+                authors += f"{author} "
+            page_count = book_dict["volumeInfo"].get("pageCount")
+            if not page_count:
+                page_count = 000
+            book = crud.create_book(isbn, 
+                                    book_dict["volumeInfo"]["title"], 
+                                    authors,
+                                    book_dict["volumeInfo"]["description"], 
+                                    page_count, 
+                                    book_dict["volumeInfo"]["imageLinks"]["thumbnail"])
+
+        if not category:
+            category = crud.create_category(user_id, label)
 
             added_books = crud.create_book_category(book, category)
-            # Right now, added_books is a list of all of the book objects in category
-        
-            return jsonify ({"success": f"{book.title} has been added to {category.label} books"})
-            # 'books_in_category': added_books
+            return jsonify ({"success": f"""A new category, {category.label}, has been added to your bookshelf and {book.title} has been added to it"""})
 
-        elif request.method == "DELETE":
+        if book in crud.get_all_books_in_category(user_id, label):
+            return jsonify ({"error": f"{book.title} is already in your {category.label} books"})
+
+        added_books = crud.create_book_category(book, category)
+        # Right now, added_books is a list of all of the book objects in category
+    
+        return jsonify ({"success": f"{book.title} has been added to {category.label} books"})
+        # 'books_in_category': added_books
+
+    elif request.method == "DELETE":
             # Removed category from user's categories
             if request.json.get("label"):
                 label = request.json.get("label")

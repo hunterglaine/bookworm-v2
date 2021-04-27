@@ -1,4 +1,4 @@
-![Bookworm](/static/img/tiny_bookworm_logo.png "Bookworm")
+![Bookworm](/src/img/tiny_bookworm_logo.png "Bookworm")
 Bookworm
 ======
 
@@ -38,22 +38,22 @@ Features
 
 <!-- + Create an account -->
 ### Login/Logout
-![Login/Logout](/static/img/login-gif.gif)
+![Login/Logout](/src/img/login-gif.gif)
 
 ### Search for books and add to your bookshelf
-![Search and add books](/static/img/search-and-add-to-category.gif)
+![Search and add books](/src/img/search-and-add-to-category.gif)
 
 ### Parouse bookshelf of saved books
-![Parouse bookshelf](/static/img/parouse-bookshelf.gif)
+![Parouse bookshelf](/src/img/parouse-bookshelf.gif)
 
 ### See all upcoming/past book clubs hosted and attended
-![Upcoming and past events](/static/img/upcoming-and-past-events.gif)
+![Upcoming and past events](/src/img/upcoming-and-past-events.gif)
 
 ### Suggest books for book clubs
-![Suggest books](/static/img/suggest-book.gif)
+![Suggest books](/src/img/suggest-book.gif)
 
 ### Vote for books
-![Vote for books](/static/img/vote-for-books.gif)
+![Vote for books](/src/img/vote-for-books.gif)
 
 
 Installation

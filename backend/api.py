@@ -33,8 +33,6 @@ def create_or_get_user():
             
         user = crud.create_user(first_name, last_name, email, password, city, state)
         first_category = crud.create_category(user.id, "My Favorite Books")
-        # return jsonify ({'status': '200',
-        #                 'message': 'Account has successfully been created'})
         return jsonify ({"user": user.to_dict()})
 
 

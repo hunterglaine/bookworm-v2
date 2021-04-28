@@ -59,9 +59,9 @@ function App() {
               : <LogIn userLoggedIn={userLoggedIn} setUserLoggedIn={setUserLoggedIn} />}
             </Route>
             
-              <Route path="/login">
+              {/* <Route path="/login">
                 <LogIn userLoggedIn={userLoggedIn} setUserLoggedIn={setUserLoggedIn} />
-              </Route>
+              </Route> */}
               <Route path="/login">
                 <LogIn userLoggedIn={userLoggedIn} setUserLoggedIn={setUserLoggedIn} />
               </Route>
@@ -96,7 +96,9 @@ function App() {
                 />
               </Route>
               <Route exact path="/book-details/:categoryLabel/:eventId" >
-                <BookDetails bookForDetails={bookForDetails} />
+                <BookDetails 
+                bookForDetails={bookForDetails} 
+                userLoggedIn={userLoggedIn} />
               </Route>
               <Route path="/create-event" >
                 <CreateEvent userLoggedIn={userLoggedIn} />

@@ -21,9 +21,9 @@ function CreateEvent(props) {
 
     const makeNewEvent = (evt) => {
         evt.preventDefault();
-        console.log(date, startTime, endTime)
+        console.log("ACCESS TOKEN??", props.userLoggedIn.accessToken)
 
-        const eventDetails = {"host_id": props.userLoggedIn.userId,
+        const eventDetails = {/*"host_id": props.userLoggedIn.userId,*/
                                 "city": eventCity,
                                 "state": eventState,
                                 "eventDate": date,

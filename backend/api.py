@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, session, redirect, jsonify, json
+from flask import Flask, render_template, request, flash, redirect, jsonify, json#, session
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, JWTManager, set_access_cookies, unset_jwt_cookies, get_jwt
 from flask_cors import CORS
 from datetime import datetime, timedelta, timezone
@@ -13,7 +13,7 @@ CORS(app)
 # Setup the Flask-JWT-Extended extension
 app.config["JWT_SECRET_KEY"] = "Hfhjsgrki*3897gtr%3FVGFjigUEY73"
 app.config["JWT_COOKIE_SECURE"] = False
-app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
+# app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 jwt = JWTManager(app)
 
@@ -39,8 +39,6 @@ def create_or_get_user():
     """Create a new user or get info about existing user."""
 
     if request.method == "GET":
-        # if session.get("user_id"):
-        #     user_id = session["user_id"]
         user_id = get_jwt_identity()
         print("USERS ROUTE USER_ID", user_id)
         user = crud.get_user_by_id(user_id)
@@ -74,7 +72,6 @@ def log_in_user():
 
     if user:
             if user.check_password(password):
-                # session["user_id"] = user.id
                 access_token = create_access_token(identity=user.id)
                 response = jsonify ({"success": "Successfully logged in!",
                                 "user_id": user.id,
@@ -82,10 +79,6 @@ def log_in_user():
                                 "access_token": access_token})
                 set_access_cookies(response, access_token)
                 print("THIS IS THE ACCESS TOKEN",access_token)
-                # return jsonify ({"success": "Successfully logged in!",
-                #                 "user_id": user.id,
-                #                 "user_first_name": user.first_name,
-                #                 "access_token": access_token})
                 return response
             else:
                 return jsonify ({"error": "Incorrect password. Please try again or create a new account."})
@@ -96,30 +89,24 @@ def log_in_user():
 @app.route("/logout", methods=["POST"])
 def log_out_user():
     """Log a user out and show them they were successful or not."""
-    # print("This is the session before popping", session)
-    # user_id = session.pop("user_id")
-    # print("This is the popped user id", user_id)
+ 
     user = crud.get_user_by_id(user_id)
     response = jsonify ({"success": f"{user.first_name}, you have been successfully logged out! Come back soon, and happy reading!"})
     unset_jwt_cookies(reponse)
 
-    # return jsonify ({"success": f"{user.first_name}, you have been successfully logged out! Come back soon, and happy reading!"})
     return response
 
 @app.route("/categories", methods=["GET", "POST", "PUT", "DELETE"])
-@jwt_required()
+@jwt_required(optional=True)
 def get_and_update_categories():
     """Gets or updates a user's categories"""
 
-    # if session.get("user_id"):
-    #     user_id = session["user_id"]
     user_id = get_jwt_identity()
 
     if request.method == "GET":
         # get and return all of the user's categories
         categories = []
 
-        # category_objects = crud.get_all_user_categories(session["user_id"])
         category_objects = crud.get_all_user_categories(user_id)
 
         for category_object in category_objects:
@@ -212,12 +199,10 @@ def get_and_update_categories():
 
 
 @app.route("/user-data", methods=["GET", "POST"])
-@jwt_required()
+@jwt_required(optional=True)
 def get_user_data():
     """Updates or retrieves user account information"""
 
-    # if session.get("user_id"):
-    #     user_id = session["user_id"]
     user_id = get_jwt_identity()
     print(f"This is the user id token thing: {user_id}")
 
@@ -254,19 +239,15 @@ def get_user_data():
 
         return jsonify (category_dict)
 
-    # else:
-    #     return jsonify ({'error': 'User must be logged in to view this page.'})
-
 
 #### EVENT ROUTES ####
 @app.route("/user-events", methods=["GET", "POST", "PUT", "DELETE"])
-@jwt_required()
+@jwt_required(optional=True)
 def get_create_user_events():
     """Creates, adds, removes, or returns user's events, hosting and attending"""
 
     if request.method == "POST":
-        # if session.get("user_id"):
-        # host_id = session["user_id"]
+ 
         host_id = get_jwt_identity()
         city = request.json.get("city")
         state = request.json.get("state")
@@ -285,8 +266,7 @@ def get_create_user_events():
 
 
     elif request.method == "GET":
-        # if session.get("user_id"):
-        # user_id = session["user_id"]
+
         user_id = get_jwt_identity()
         users_events = crud.get_all_events_for_user(user_id)
         # A list of the user's event objects
@@ -337,11 +317,6 @@ def get_create_user_events():
             return jsonify ({"hosting": {"past": None, "upcoming": None}, 
                             "attending": {"past": None, "upcoming": None}})
 
-        # else:
-        #     return jsonify ({'error': 'User must be logged in to view their events.'})
-
-
-    # user_id = session.get("user_id")
     user_id = get_jwt_identity()
     event_id = request.json.get("event")
     event = crud.get_event_by_id(event_id)
@@ -367,12 +342,13 @@ def get_create_user_events():
 
 
 @app.route("/event-books", methods=["POST", "PUT"])
-@jwt_required()
+@jwt_required(optional=True)
 def update_event_books():
     """Updates the status of can_suggest_books and can_vote on an event"""
 
     if request.method == "POST":
-        # if session.get("user_id"):
+ 
+        user_id = get_jwt_identity()
         event_id = request.json.get("event_id")
         update_type = request.json.get("update_type")
 
@@ -425,10 +401,10 @@ def update_event_books():
 
 
 @app.route("/vote", methods=["GET", "POST"])
-@jwt_required()
+@jwt_required(optional=True)
 def update_event_book_votes():
     """Increases or returns the number of votes on a given event book"""
-    # user_id = session.get("user_id")
+ 
     user_id = get_jwt_identity()
 
     events = crud.get_all_events_for_user(user_id)

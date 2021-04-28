@@ -17,7 +17,10 @@ function EventDetails(props) {
 
     useEffect(() => {
         fetch("/vote", {
-            method: "GET"
+            method: "GET",
+            headers: {
+                'Authorization': `Bearer ${props.userLoggedIn.accessToken}`,
+            }
         })
         .then((response) => response.json())
         .then((data) => {
@@ -54,6 +57,7 @@ function EventDetails(props) {
             body: JSON.stringify({"eventId": event.id,
                                 "bookIsbn": bookIsbn}),
             headers: {
+                'Authorization': `Bearer ${props.userLoggedIn.accessToken}`,
                 "Content-Type": "application/json"
             },
         })

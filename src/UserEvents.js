@@ -69,7 +69,7 @@ function UserEvents(props) {
                     </Col>
                     <Col sm={10} className="mt-4">
                         <Card className="text-center" border="light">
-                            <EventDetails event={event} type="hosting" changeInEvent={changeInEvent} setChangeInEvent={setChangeInEvent} setBookForDetails={props.setBookForDetails} />
+                            <EventDetails event={event} type="hosting" changeInEvent={changeInEvent} setChangeInEvent={setChangeInEvent} setBookForDetails={props.setBookForDetails} userLoggedIn={props.userLoggedIn} />
                         </Card>
                     </Col>
                 </Row>

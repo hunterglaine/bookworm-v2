@@ -44,6 +44,7 @@ function BookDetails(props) {
             body: JSON.stringify({"event_id": eventId,
                                     "isbn": props.bookForDetails.isbn}),
             headers: {
+                'Authorization': `Bearer ${props.userLoggedIn.accessToken}`,
                 'Content-Type': 'application/json'
             },
         })

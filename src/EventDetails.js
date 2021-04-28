@@ -35,6 +35,7 @@ function EventDetails(props) {
             body: JSON.stringify({"event_id": eventId,
                                 "update_type": type}),
             headers: {
+                'Authorization': `Bearer ${props.userLoggedIn.accessToken}`,
                 'Content-Type': 'application/json'
             },
         })

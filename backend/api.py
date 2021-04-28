@@ -367,45 +367,46 @@ def get_create_user_events():
 
 
 @app.route("/event-books", methods=["POST", "PUT"])
+@jwt_required()
 def update_event_books():
     """Updates the status of can_suggest_books and can_vote on an event"""
 
     if request.method == "POST":
-        if session.get("user_id"):
-            event_id = request.json.get("event_id")
-            update_type = request.json.get("update_type")
+        # if session.get("user_id"):
+        event_id = request.json.get("event_id")
+        update_type = request.json.get("update_type")
 
-            if update_type == "suggest":
-                crud.update_event_suggesting(event_id)
+        if update_type == "suggest":
+            crud.update_event_suggesting(event_id)
+        
+            return jsonify({"success": "Event books has been updated"})
+        
+        if update_type == "vote":
+            crud.update_voting(event_id)
+            event = crud.get_event_by_id(event_id)
+        if not event.can_vote:
+            events_books = crud.get_all_events_books(event_id)
+            vote_totals_dict = {}
+
+            for event_book in events_books:
+                vote_totals_dict[event_book.vote_count] =  vote_totals_dict.get(event_book.vote_count, [])
+                vote_totals_dict[event_book.vote_count].append(event_book.isbn)
+
+            max_votes = set(vote_totals_dict[max(vote_totals_dict)])
+
+            for event_book in events_books:
+                if event_book.isbn not in max_votes:
+                    crud.remove_book_from_event(event_book.isbn, event_id)
+                else:
+                    crud.reset_vote_count(event_book)
+
+            attendees = crud.get_all_events_attendees(event_id)
+            print("attendees", attendees)
+            for attendee in attendees:
+                crud.reset_voted_for(attendee)
             
-                return jsonify({"success": "Event books has been updated"})
-            
-            if update_type == "vote":
-                crud.update_voting(event_id)
-                event = crud.get_event_by_id(event_id)
-            if not event.can_vote:
-                events_books = crud.get_all_events_books(event_id)
-                vote_totals_dict = {}
 
-                for event_book in events_books:
-                    vote_totals_dict[event_book.vote_count] =  vote_totals_dict.get(event_book.vote_count, [])
-                    vote_totals_dict[event_book.vote_count].append(event_book.isbn)
-
-                max_votes = set(vote_totals_dict[max(vote_totals_dict)])
-
-                for event_book in events_books:
-                    if event_book.isbn not in max_votes:
-                        crud.remove_book_from_event(event_book.isbn, event_id)
-                    else:
-                        crud.reset_vote_count(event_book)
-
-                attendees = crud.get_all_events_attendees(event_id)
-                print("attendees", attendees)
-                for attendee in attendees:
-                    crud.reset_voted_for(attendee)
-                
-
-            return jsonify({"success": "Voting has been updated"})
+        return jsonify({"success": "Voting has been updated"})
 
     if request.method == "PUT":
         event_id = request.json.get("event_id")
@@ -424,9 +425,11 @@ def update_event_books():
 
 
 @app.route("/vote", methods=["GET", "POST"])
+@jwt_required()
 def update_event_book_votes():
     """Increases or returns the number of votes on a given event book"""
-    user_id = session.get("user_id")
+    # user_id = session.get("user_id")
+    user_id = get_jwt_identity()
 
     events = crud.get_all_events_for_user(user_id)
     all_events = {}

@@ -35,7 +35,8 @@ function CreateEvent(props) {
             credentials: "include",
             body: JSON.stringify(eventDetails),
             headers: {
-                    'Content-Type': 'application/json'
+                'Authorization': `Bearer ${props.userLoggedIn.accessToken}`,
+                'Content-Type': 'application/json'
                 },
         })
         .then (response => response.json())

@@ -260,95 +260,89 @@ def get_user_data():
 
 #### EVENT ROUTES ####
 @app.route("/user-events", methods=["GET", "POST", "PUT", "DELETE"])
+@jwt_required()
 def get_create_user_events():
     """Creates, adds, removes, or returns user's events, hosting and attending"""
 
-
     if request.method == "POST":
-        if session.get("user_id"):
-            host_id = session["user_id"]
-            city = request.json.get("city")
-            state = request.json.get("state")
-            eventDate = request.json.get("eventDate")
-            startTime = request.json.get("startTime")
-            endTime = request.json.get("endTime")
+        # if session.get("user_id"):
+        # host_id = session["user_id"]
+        host_id = get_jwt_identity()
+        city = request.json.get("city")
+        state = request.json.get("state")
+        eventDate = request.json.get("eventDate")
+        startTime = request.json.get("startTime")
+        endTime = request.json.get("endTime")
 
-            new_event = crud.create_event(host_id, city, eventDate, startTime, endTime, state)
-            # Add host as an attendee of the event
-            crud.create_event_attendee(host_id, new_event.id)
+        new_event = crud.create_event(host_id, city, eventDate, startTime, endTime, state)
+        # Add host as an attendee of the event
+        crud.create_event_attendee(host_id, new_event.id)
 
-            return jsonify ({"success": f"Your event has successfully been created for {eventDate} at {startTime}"})
+        return jsonify ({"success": f"Your event has successfully been created for {eventDate} at {startTime}"})
 
-        else:
-            return jsonify ({"error": "There was an error creating this event."})
+        # else:
+        #     return jsonify ({"error": "There was an error creating this event."})
 
 
     elif request.method == "GET":
-        if session.get("user_id"):
-            user_id = session["user_id"]
-            users_events = crud.get_all_events_for_user(user_id)
-            # A list of the user's event objects
+        # if session.get("user_id"):
+        # user_id = session["user_id"]
+        user_id = get_jwt_identity()
+        users_events = crud.get_all_events_for_user(user_id)
+        # A list of the user's event objects
             
-            if users_events:
-                users_events_dict = {"hosting": {"past": [], "upcoming": []}, 
-                                    "attending": {"past": [], "upcoming": []}}
+        if users_events:
+            users_events_dict = {"hosting": {"past": [], "upcoming": []}, 
+                                "attending": {"past": [], "upcoming": []}}
 
-                for event in users_events:
-                    events_books = crud.get_all_events_books(event.id)
-                    events_books = [event_book.to_dict() for event_book in events_books]
-                    books = crud.get_all_books_for_event(event.id) # CHANGED
-                    books = [book.to_dict() for book in books]
+            for event in users_events:
+                events_books = crud.get_all_events_books(event.id)
+                events_books = [event_book.to_dict() for event_book in events_books]
+                books = crud.get_all_books_for_event(event.id) # CHANGED
+                books = [book.to_dict() for book in books]
 
-                    host = crud.get_user_by_id(event.host_id)
+                host = crud.get_user_by_id(event.host_id)
 
-                    event = event.to_dict()
-                    event["books"] = books
-                    event["events_books"] = events_books
-                    event["host"] = f"{host.first_name} {host.last_name}"
+                event = event.to_dict()
+                event["books"] = books
+                event["events_books"] = events_books
+                event["host"] = f"{host.first_name} {host.last_name}"
 
-                    today = date.today()
-                    if event["host_id"] == user_id:
-                        if today <= event["event_date"]:
-                            users_events_dict["hosting"]["upcoming"].append(event)
-                        else: 
-                            users_events_dict["hosting"]["past"].append(event)
+                today = date.today()
+                if event["host_id"] == user_id:
+                    if today <= event["event_date"]:
+                        users_events_dict["hosting"]["upcoming"].append(event)
+                    else: 
+                        users_events_dict["hosting"]["past"].append(event)
 
-                        # users_events_dict["hosting"].append(event)
-                    else:
-                        if today <= event["event_date"]:
-                            users_events_dict["attending"]["upcoming"].append(event)
-                        else: 
-                            users_events_dict["attending"]["past"].append(event)
+                else:
+                    if today <= event["event_date"]:
+                        users_events_dict["attending"]["upcoming"].append(event)
+                    else: 
+                        users_events_dict["attending"]["past"].append(event)
+            
+            if len(users_events_dict["hosting"]["upcoming"]) == 0:
+                users_events_dict["hosting"]["upcoming"] = None
+            if len(users_events_dict["hosting"]["past"]) == 0:
+                users_events_dict["hosting"]["past"] = None
 
-                        # users_events_dict["attending"].append(event)
-                
-                if len(users_events_dict["hosting"]["upcoming"]) == 0:
-                    users_events_dict["hosting"]["upcoming"] = None
-                if len(users_events_dict["hosting"]["past"]) == 0:
-                    users_events_dict["hosting"]["past"] = None
+            elif len(users_events_dict["attending"]["upcoming"]) == 0:
+                users_events_dict["attending"]["upcoming"] = None
+            elif len(users_events_dict["attending"]["past"]) == 0:
+                users_events_dict["attending"]["past"] = None
 
-                # if len(users_events_dict["hosting"]) == 0:
-                #     users_events_dict["hosting"] = None
-
-                elif len(users_events_dict["attending"]["upcoming"]) == 0:
-                    users_events_dict["attending"]["upcoming"] = None
-                elif len(users_events_dict["attending"]["past"]) == 0:
-                    users_events_dict["attending"]["past"] = None
-
-                # elif len(users_events_dict["attending"]) == 0:
-                #     users_events_dict["attending"] = None
-
-                return jsonify (users_events_dict)
-
-            else:
-                return jsonify ({"hosting": {"past": None, "upcoming": None}, 
-                                "attending": {"past": None, "upcoming": None}})
+            return jsonify (users_events_dict)
 
         else:
-            return jsonify ({'error': 'User must be logged in to view their events.'})
+            return jsonify ({"hosting": {"past": None, "upcoming": None}, 
+                            "attending": {"past": None, "upcoming": None}})
+
+        # else:
+        #     return jsonify ({'error': 'User must be logged in to view their events.'})
 
 
-    user_id = session.get("user_id")
+    # user_id = session.get("user_id")
+    user_id = get_jwt_identity()
     event_id = request.json.get("event")
     event = crud.get_event_by_id(event_id)
     user = crud.get_user_by_id(user_id)

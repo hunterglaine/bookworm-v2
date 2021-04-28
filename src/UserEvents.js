@@ -21,7 +21,11 @@ function UserEvents(props) {
     let history = useHistory();
  
     useEffect(() =>  {
-        fetch("/user-events")
+        fetch("/user-events", {
+            headers: {
+                'Authorization': `Bearer ${props.userLoggedIn.accessToken}`
+            }
+        })
         .then(response => response.json())
         .then(data => {
             if ("error" in data) {

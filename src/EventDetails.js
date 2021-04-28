@@ -83,6 +83,7 @@ function EventDetails(props) {
             credentials: "include",
             body: JSON.stringify({"event": event.id}),
             headers: {
+                'Authorization': `Bearer ${props.userLoggedIn.accessToken}`,
                 'Content-Type': 'application/json'
             },
         })
